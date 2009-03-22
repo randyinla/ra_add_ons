@@ -1,13 +1,24 @@
-RaAddOns
-========
+RaAddOns = Restful Authentication Add Ons
+=========================================
+Now that Rails 2.3.2 has application templates, I thought I'd take a stab at converting the restful_authentication tutorial at http://railsforum.com/viewtopic.php?pid=74245#p74245 into a template.  It started getting very messy, what with all the file edits, so I'm now taking a stab at creating a plugin out of the forgot_password updates in the tutorial.  This will help shrink my template alot and make it more modular at the same time.
 
-Introduction goes here.
+I'm basically trying to copy the way technoweenie has his restful_authentication plugin hooking into the app.  Since my template is also installing the aasm plugin, I will be trying to hook into the app in the same place, rather than extend restful_authentication...because I'm still learning how to do all this.  Eventually, I want to make this plugin an actual extension of restful_authentication, rather than something that plugs in along side of it.  
 
+So far, this plugin contains the following user.rb instance methods:
+  * forgot_password
+  * reset_password
+  * recently_forgot_password?
+  * recently_reset_password?
+  * self.find_for_forget(email)
+  * make_password_reset_code
+
+You will need to add this at the top of your user.rb class:
+include AuthorizationAddOns::Forgot
 
 Example
 =======
 
-Example goes here.
+
 
 
 Copyright (c) 2009 [Randy Walker], released under the MIT license
