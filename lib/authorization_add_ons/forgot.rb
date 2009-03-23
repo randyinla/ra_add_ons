@@ -34,6 +34,33 @@ module AuthorizationAddOns
       def self.find_for_forget(email)
         find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
       end
+
+      def enabled
+        self.state == 'active' ? true : false
+      end
+      
+      def has_role?(rolename)
+        self.roles.find_by_rolename(rolename) ? true : false
+      end
+      
+      def check_role(role)
+        unless logged_in? && @current_user.has_role?(role)
+          if logged_in?
+            permission_denied
+          else
+            store_referer
+            access_denied
+          end
+        end
+      end
+      
+      def check_administrator_role
+        check_role('administrator')
+      end
+      
+      def store_referer
+        session[:refer_to] = request.env["HTTP_REFERER"]
+      end
       
       protected
       def make_password_reset_code
