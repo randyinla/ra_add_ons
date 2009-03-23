@@ -35,6 +35,7 @@ module AuthorizationAddOns
         find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
       end
       
+      protected
       def make_password_reset_code
         self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
       end
